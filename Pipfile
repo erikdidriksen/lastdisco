@@ -6,9 +6,11 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
+pytest-mock = "*"
 
 [packages]
 bs4 = "*"
+pylast = "*"
 
 [requires]
 python_version = "3.6"
