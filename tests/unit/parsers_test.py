@@ -1,19 +1,12 @@
-import os
 import pytest
+from .fixtures import AlbumFixtures
 from lastdisco.parsers import DiscogsAlbumParser
 
-
-fixture_folder = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    os.pardir,
-    'fixtures',
-    )
-fixture_path = os.path.join(fixture_folder, 'france_gall.html')
-with open(fixture_path) as fixture_file:
-    album = fixture_file.read()
+fixtures = AlbumFixtures()
 
 
 def test_parses_all_tracks():
+    album = fixtures['france_gall']
     assert len(DiscogsAlbumParser(album)) == 12
 
 
@@ -26,4 +19,5 @@ def test_parses_all_tracks():
     ('sequence', 1),
     ])
 def test_parses_track_details(key, expected):
+    album = fixtures['france_gall']
     assert DiscogsAlbumParser(album)[0][key] == expected
