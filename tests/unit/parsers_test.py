@@ -26,3 +26,8 @@ def test_parses_track_details(key, expected):
 def test_ignores_side_if_unavailable():
     album = fixtures['pete_astor']
     assert DiscogsAlbumParser(album)[0]['side'] is None
+
+
+def test_ignores_duration_if_unavailable():
+    album = fixtures['umbrellas']
+    assert DiscogsAlbumParser(album)[0]['duration'] is None

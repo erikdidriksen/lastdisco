@@ -49,6 +49,8 @@ class DiscogsTrackParser:
     @staticmethod
     def duration(cells):
         """Convert the duration string to a total second count."""
+        if 'duration' not in cells:
+            return None
         duration = cells['duration'].text
         minutes, seconds = duration.split(':')
         return (60 * int(minutes)) + int(seconds)
