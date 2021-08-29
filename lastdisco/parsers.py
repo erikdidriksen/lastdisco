@@ -39,7 +39,11 @@ class DiscogsTrackParser:
     @staticmethod
     def split_track_position(track_position):
         """Return the side and sequence number for the track."""
-        side, sequence = tuple(track_position)
+        try:
+            side, sequence = tuple(track_position)
+        except ValueError:
+            side = None
+            sequence = track_position
         return side, int(sequence)
 
     @staticmethod

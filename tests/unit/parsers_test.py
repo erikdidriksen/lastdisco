@@ -21,3 +21,8 @@ def test_parses_all_tracks():
 def test_parses_track_details(key, expected):
     album = fixtures['france_gall']
     assert DiscogsAlbumParser(album)[0][key] == expected
+
+
+def test_ignores_side_if_unavailable():
+    album = fixtures['pete_astor']
+    assert DiscogsAlbumParser(album)[0]['side'] is None
