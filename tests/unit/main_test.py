@@ -21,7 +21,7 @@ def test_creates_playlists(mock_pylast):
 
 
 def test_respects_end_flag(mock_pylast):
-    main.run_module(url='url', end=True)
+    main.run_module(url='url', is_end=True)
     client = mock_pylast.return_value
     client.scrobble.assert_called_with(
         artist='France Gall',

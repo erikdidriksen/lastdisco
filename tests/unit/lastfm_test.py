@@ -62,7 +62,7 @@ def test_uses_given_starting_point(mock_pylast):
     tracks = DiscogsAlbumParser(fixtures['france_gall'])
     client = lastfm.build_client()
     start = datetime.datetime(2021, 8, 29, 0, 0)
-    lastfm.scrobble_tracks(client, tracks, start=start)
+    lastfm.scrobble_tracks(client, tracks, dt=start)
     expected = datetime.datetime(2021, 8, 29, 0, 26, 24).timestamp()
     assert client.scrobble.call_args[1]['timestamp'] == expected
 
@@ -70,8 +70,8 @@ def test_uses_given_starting_point(mock_pylast):
 def test_calculates_from_endpoint(mock_pylast):
     tracks = DiscogsAlbumParser(fixtures['france_gall'])
     client = lastfm.build_client()
-    end = datetime.datetime(2021, 8, 28, 0, 0)
-    lastfm.scrobble_tracks(client, tracks, end=end)
+    dt = datetime.datetime(2021, 8, 28, 0, 0)
+    lastfm.scrobble_tracks(client, tracks, dt=dt, is_end=True)
     expected = datetime.datetime(2021, 8, 27, 23, 57, 25).timestamp()
     assert client.scrobble.call_args[1]['timestamp'] == expected
 

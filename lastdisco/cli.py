@@ -18,7 +18,7 @@ def parse_args(args):
         default=False,
         required=False,
         help="Indicates you've just finished listening",
-        dest='end',
+        dest='is_end',
         )
     parser.add_argument(
         '-s', '--side',
