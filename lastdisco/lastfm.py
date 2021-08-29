@@ -43,12 +43,15 @@ def offset(duration):
     return 180 if duration is None else duration
 
 
-def start_datetime(start, end=None, tracks=None):
+def start_datetime(start=True, end=None, tracks=None):
     """Return the initial start datetime for the batch of scrobbles."""
-    if start:
-        return start
-    elif not end:
+    default_to_now = not (start or end)
+    if default_to_now:
         return now()
+    elif start:
+        return start
+    if end is True:
+        end = now()
     total_offset = sum(offset(track['duration']) for track in tracks)
     return end - datetime.timedelta(seconds=total_offset)
 

@@ -13,6 +13,14 @@ def parse_args(args):
         help='The URL of the Discogs page to scrobble',
         )
     parser.add_argument(
+        '-e', '--end',
+        action='store_true',
+        default=False,
+        required=False,
+        help="Indicates you've just finished listening",
+        dest='end',
+        )
+    parser.add_argument(
         '-u', '--user',
         action='store',
         default=None,
