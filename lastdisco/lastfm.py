@@ -56,9 +56,11 @@ def start_datetime(start=True, end=None, tracks=None):
     return end - datetime.timedelta(seconds=total_offset)
 
 
-def scrobble_tracks(client, tracks, start=None, end=None):
+def scrobble_tracks(client, tracks, start=None, end=None, side=None):
     """Scrobble the given tracks."""
     start = start_datetime(start, end, tracks)
+    if side is not None:
+        tracks = [track for track in tracks if track['side'] == side]
     for track in tracks:
         client.scrobble(
             artist=track['artist'],

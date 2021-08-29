@@ -74,3 +74,10 @@ def test_calculates_from_endpoint(mock_pylast):
     lastfm.scrobble_tracks(client, tracks, end=end)
     expected = datetime.datetime(2021, 8, 27, 23, 57, 25).timestamp()
     assert client.scrobble.call_args[1]['timestamp'] == expected
+
+
+def test_filters_by_side(mock_pylast):
+    tracks = DiscogsAlbumParser(fixtures['france_gall'])
+    client = lastfm.build_client()
+    lastfm.scrobble_tracks(client, tracks, side='A')
+    assert client.scrobble.call_args[1]['title'] == "On T'Avait Prévenue"
