@@ -40,19 +40,28 @@ def reported_duration(duration):
 
 def offset(duration):
     """Return the offset to separate scrobbles."""
-    duration = 180 if duration is None else duration
-    return datetime.timedelta(seconds=duration)
+    return 180 if duration is None else duration
 
 
-def scrobble_tracks(client, tracks, start_datetime=None):
+def start_datetime(start, end=None, tracks=None):
+    """Return the initial start datetime for the batch of scrobbles."""
+    if start:
+        return start
+    elif not end:
+        return now()
+    total_offset = sum(offset(track['duration']) for track in tracks)
+    return end - datetime.timedelta(seconds=total_offset)
+
+
+def scrobble_tracks(client, tracks, start=None, end=None):
     """Scrobble the given tracks."""
-    start_datetime = start_datetime if start_datetime else now()
+    start = start_datetime(start, end, tracks)
     for track in tracks:
         client.scrobble(
             artist=track['artist'],
             title=track['title'],
-            timestamp=start_datetime.timestamp(),
+            timestamp=start.timestamp(),
             album=track['album'],
             duration=reported_duration(track['duration']),
             )
-        start_datetime += offset(track['duration'])
+        start += datetime.timedelta(seconds=offset(track['duration']))
