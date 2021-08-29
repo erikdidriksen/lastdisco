@@ -31,3 +31,8 @@ def test_ignores_side_if_unavailable():
 def test_ignores_duration_if_unavailable():
     album = fixtures['umbrellas']
     assert DiscogsAlbumParser(album)[0]['duration'] is None
+
+
+def test_ignores_discogs_disambiguation():
+    album = fixtures['umbrellas']
+    assert DiscogsAlbumParser(album)[0]['artist'] == 'The Umbrellas'

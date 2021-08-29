@@ -1,3 +1,4 @@
+import re
 from bs4 import BeautifulSoup as Soup
 
 
@@ -59,6 +60,8 @@ class DiscogsTrackParser:
 class DiscogsAlbumParser:
     """A parser for Discogs album pages."""
 
+    ARTIST_PATTERN = r'(.*)(\s\(\d+\))$'
+
     def __new__(cls, html):
         soup = ensure_is_soup(html)
         album = {
@@ -67,10 +70,14 @@ class DiscogsAlbumParser:
             }
         return cls.tracks(soup, album)
 
-    @staticmethod
-    def artist(soup):
+    @classmethod
+    def artist(cls, soup):
         """Return the name of the artist for the album."""
-        return soup.find('h1').find('a').text
+        name = soup.find('h1').find('a').text
+        match = re.match(cls.ARTIST_PATTERN, name)
+        if match:
+            name = match.groups()[0]
+        return name
 
     @staticmethod
     def title(soup):
