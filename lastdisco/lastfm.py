@@ -33,16 +33,26 @@ def now():
     return datetime.datetime.now()  # pragma: no cover
 
 
+def reported_duration(duration):
+    """Return the duration to report to Last.fm."""
+    return None if duration is None or duration < 30 else duration
+
+
+def offset(duration):
+    """Return the offset to separate scrobbles."""
+    duration = 180 if duration is None else duration
+    return datetime.timedelta(seconds=duration)
+
+
 def scrobble_tracks(client, tracks, start_datetime=None):
     """Scrobble the given tracks."""
     start_datetime = start_datetime if start_datetime else now()
     for track in tracks:
-        duration = track['duration'] if track['duration'] >= 30 else None
         client.scrobble(
             artist=track['artist'],
             title=track['title'],
             timestamp=start_datetime.timestamp(),
             album=track['album'],
-            duration=duration,
+            duration=reported_duration(track['duration']),
             )
-        start_datetime += datetime.timedelta(seconds=track['duration'])
+        start_datetime += offset(track['duration'])

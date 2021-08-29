@@ -2,6 +2,10 @@ import datetime
 import pytest
 from pylast import md5
 from lastdisco import lastfm
+from lastdisco.parsers import DiscogsAlbumParser
+from .fixtures import AlbumFixtures
+
+fixtures = AlbumFixtures()
 
 
 def test_builds_client_with_environment_variables(mock_pylast):
@@ -44,3 +48,11 @@ def test_ignores_duration_if_below_lastfm_threshold(mock_pylast):
         ]
     lastfm.scrobble_tracks(client, tracks)
     assert client.scrobble.call_args[1]['duration'] is None
+
+
+def test_defaults_to_three_minute_song_length_for_scrobble_offset(mock_pylast):
+    tracks = DiscogsAlbumParser(fixtures['umbrellas'])
+    client = lastfm.build_client()
+    timestamp = datetime.datetime(2021, 8, 28, 0, 33).timestamp()
+    lastfm.scrobble_tracks(client, tracks)
+    assert client.scrobble.call_args[1]['timestamp'] == timestamp
