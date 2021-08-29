@@ -13,6 +13,14 @@ def parse_args(args):
         help='The URL of the Discogs page to scrobble',
         )
     parser.add_argument(
+        '-d', '--date',
+        action='store',
+        default=None,
+        required=False,
+        help='The datetime to scrobble from',
+        dest='dt',
+        )
+    parser.add_argument(
         '-e', '--end',
         action='store_true',
         default=False,

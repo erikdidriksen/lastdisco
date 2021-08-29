@@ -42,3 +42,15 @@ def test_respects_side(mock_pylast):
         album='Poupée De Cire Poupée De Son',
         duration=143,
         )
+
+
+def test_respects_entered_datetime(mock_pylast):
+    main.run_module(url='url', dt='August 29th, 12am')
+    client = mock_pylast.return_value
+    client.scrobble.assert_called_with(
+        artist='France Gall',
+        title='Bonne Nuit',
+        timestamp=datetime.datetime(2021, 8, 29, 0, 26, 24).timestamp(),
+        album='Poupée De Cire Poupée De Son',
+        duration=155,
+        )
