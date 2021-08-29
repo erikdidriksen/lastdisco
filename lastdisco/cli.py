@@ -21,6 +21,14 @@ def parse_args(args):
         dest='end',
         )
     parser.add_argument(
+        '-s', '--side',
+        action='store',
+        default=None,
+        required=False,
+        help='Indicates the album side to scrobble',
+        dest='side',
+        )
+    parser.add_argument(
         '-u', '--user',
         action='store',
         default=None,

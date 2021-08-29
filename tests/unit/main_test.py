@@ -30,3 +30,15 @@ def test_respects_end_flag(mock_pylast):
         album='Poupée De Cire Poupée De Son',
         duration=155,
         )
+
+
+def test_respects_side(mock_pylast):
+    main.run_module(url='url', side='A')
+    client = mock_pylast.return_value
+    client.scrobble.assert_called_with(
+        artist='France Gall',
+        title="On T'Avait Prévenue",
+        timestamp=datetime.datetime(2021, 8, 28, 0, 12, 22).timestamp(),
+        album='Poupée De Cire Poupée De Son',
+        duration=143,
+        )
